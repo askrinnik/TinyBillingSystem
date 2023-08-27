@@ -8,13 +8,13 @@ namespace Tibis.Application.AccountManagement.Handlers;
 
 public class GetAllAccountsHandler : IRequestHandler<GetAllAccountsRequest, IEnumerable<AccountDto>>
 {
-    private readonly IRetrieveMany<Account> _accountRepository;
+    private readonly IRetrieveMany<Account> _repository;
 
-    public GetAllAccountsHandler(IRetrieveMany<Account> accountRepository) => 
-        _accountRepository = accountRepository;
+    public GetAllAccountsHandler(IRetrieveMany<Account> repository) => 
+        _repository = repository;
 
     public async Task<IEnumerable<AccountDto>> Handle(GetAllAccountsRequest request, CancellationToken cancellationToken) =>
-        await _accountRepository.RetrieveManyAsync()
-            .SelectAwait(item => ValueTask.FromResult(AccountDto.FromAccount(item)))
+        await _repository.RetrieveManyAsync()
+            .SelectAwait(item => ValueTask.FromResult(AccountDto.From(item)))
             .ToArrayAsync(cancellationToken);
 }

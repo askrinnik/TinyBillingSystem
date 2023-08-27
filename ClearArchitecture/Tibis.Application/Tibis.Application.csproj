@@ -10,6 +10,9 @@
     <OpenApiReference Include="OpenAPIs\swagger.json" CodeGenerator="NSwagCSharp" Namespace="Tibis.Application.HttpClients" ClassName="AccountManagementHttpClient">
       <SourceUri>http://localhost:5001/swagger/v1/swagger.json</SourceUri>
     </OpenApiReference>
+    <OpenApiReference Include="OpenAPIs\swagger1.json" CodeGenerator="NSwagCSharp" Namespace="Tibis.Application.HttpClients" ClassName="ProductManagementHttpClient">
+      <SourceUri>http://localhost:5002/swagger/v1/swagger.json</SourceUri>
+    </OpenApiReference>
   </ItemGroup>
 
   <ItemGroup>

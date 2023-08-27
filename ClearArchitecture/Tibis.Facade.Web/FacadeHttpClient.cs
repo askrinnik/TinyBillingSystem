@@ -20,10 +20,16 @@ namespace Tibis.Facade.Web
 
         public async Task CreateDemoDataAsync()
         {   
-            var accountManagementUrl = _configuration["AccountManagementUrl"]?? "http://localhost:5001";
+            var accountManagementUrl = _configuration["AccountManagementUrl"] ?? "http://localhost:5001";
             var accClient = new AccountManagementHttpClient(accountManagementUrl, _httpClient);
 
-            var account = await accClient.AccountPOSTAsync(new() { Name = $"User{Guid.NewGuid()}" });
+            var account = await accClient.AccountPOSTAsync(new() { Name = $"User_{Guid.NewGuid()}" });
+
+            var productManagementUrl = _configuration["ProductManagementUrl"] ?? "http://localhost:5002";
+            var prodClient = new ProductManagementHttpClient(productManagementUrl, _httpClient);
+
+            var product = await prodClient.ProductPOSTAsync(new() { Name = $"Product_{Guid.NewGuid()}" });
+
         }
     }
 }

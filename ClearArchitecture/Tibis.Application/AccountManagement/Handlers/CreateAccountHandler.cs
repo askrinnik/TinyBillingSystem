@@ -8,14 +8,14 @@ namespace Tibis.Application.AccountManagement.Handlers;
 
 public class CreateAccountHandler : IRequestHandler<CreateAccountRequest, AccountDto>
 {
-    private readonly ICreate<Account> _accountRepository;
+    private readonly ICreate<Account> _repository;
 
-    public CreateAccountHandler(ICreate<Account> accountRepository) =>
-        _accountRepository = accountRepository;
+    public CreateAccountHandler(ICreate<Account> repository) =>
+        _repository = repository;
 
     public async Task<AccountDto> Handle(CreateAccountRequest request, CancellationToken cancellationToken)
     {
-        var account = await _accountRepository.CreateAsync(new(request.Name));
-        return AccountDto.FromAccount(account);
+        var item = await _repository.CreateAsync(new(request.Name));
+        return AccountDto.From(item);
     }
 }
