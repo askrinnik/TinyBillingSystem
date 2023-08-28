@@ -28,7 +28,8 @@ namespace Tibis.Facade.Web
             var productManagementUrl = _configuration["ProductManagementUrl"] ?? "http://localhost:5002";
             var prodClient = new ProductManagementHttpClient(productManagementUrl, _httpClient);
 
-            var product = await prodClient.ProductPOSTAsync(new() { Name = $"Product_{Guid.NewGuid()}" });
+            var rcProduct = await prodClient.ProductPOSTAsync(new()
+                { Name = $"Product_{Guid.NewGuid()}", ProductType = 0, Rate = 2 });
 
         }
     }

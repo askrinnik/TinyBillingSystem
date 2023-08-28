@@ -141,6 +141,14 @@
           "name": {
             "type": "string",
             "nullable": true
+          },
+          "productType": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rate": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -155,6 +163,14 @@
           "name": {
             "type": "string",
             "nullable": true
+          },
+          "productType": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rate": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
