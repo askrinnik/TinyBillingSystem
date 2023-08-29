@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tibis.Facade.Web", "Tibis.F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{66EDF651-4AF6-4C6E-AC41-132B4FEBC071}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tibis.ProductManagement.Web", "Tibis.ProductManagement.Web\Tibis.ProductManagement.Web.csproj", "{4F27F545-7C11-42C5-8D03-D1FEE6B32FA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tibis.ProductManagement.Web", "Tibis.ProductManagement.Web\Tibis.ProductManagement.Web.csproj", "{4F27F545-7C11-42C5-8D03-D1FEE6B32FA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tibis.Billing.Web", "Tibis.Billing.Web\Tibis.Billing.Web.csproj", "{E4229E39-4D3C-4B89-86BD-84784754CD49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{4F27F545-7C11-42C5-8D03-D1FEE6B32FA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F27F545-7C11-42C5-8D03-D1FEE6B32FA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F27F545-7C11-42C5-8D03-D1FEE6B32FA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4229E39-4D3C-4B89-86BD-84784754CD49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4229E39-4D3C-4B89-86BD-84784754CD49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4229E39-4D3C-4B89-86BD-84784754CD49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4229E39-4D3C-4B89-86BD-84784754CD49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +55,7 @@ Global
 		{04646F03-5114-42B1-9909-3F0F597BB126} = {66EDF651-4AF6-4C6E-AC41-132B4FEBC071}
 		{7F85FECF-07BF-44E1-B7C2-2A2665A13A6D} = {66EDF651-4AF6-4C6E-AC41-132B4FEBC071}
 		{4F27F545-7C11-42C5-8D03-D1FEE6B32FA3} = {66EDF651-4AF6-4C6E-AC41-132B4FEBC071}
+		{E4229E39-4D3C-4B89-86BD-84784754CD49} = {66EDF651-4AF6-4C6E-AC41-132B4FEBC071}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82EF3541-B6C0-4FBF-8A1A-E632ADC14E56}

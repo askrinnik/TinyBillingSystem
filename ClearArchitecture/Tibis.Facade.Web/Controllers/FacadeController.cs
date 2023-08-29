@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Tibis.Facade.Web.Models;
 
 namespace Tibis.Facade.Web.Controllers;
 
@@ -6,21 +7,31 @@ namespace Tibis.Facade.Web.Controllers;
 [Route("[controller]")]
 public class FacadeController : ControllerBase
 {
-    private readonly IFacadeHttpClient _facadeHttpClient;
+    private readonly IFacadeService _facadeService;
 
     private readonly ILogger<FacadeController> _logger;
 
-    public FacadeController(ILogger<FacadeController> logger, IFacadeHttpClient facadeHttpClient)
+    public FacadeController(ILogger<FacadeController> logger, IFacadeService facadeService)
     {
         _logger = logger;
-        _facadeHttpClient = facadeHttpClient;
+        _facadeService = facadeService;
     }
 
-    [HttpPost(Name = "CreateDemoData")]
-    public async Task<IActionResult> CreateDemoData()
+    [HttpPost]
+    [Route("CreateDemoData")]
+    public async Task<ActionResult<DemoDataDto>> CreateDemoData()
     {
         _logger.LogInformation("Creating demo data");
-        await _facadeHttpClient.CreateDemoDataAsync();
+        var result = await _facadeService.CreateDemoDataAsync();
+        return Ok(result);
+    }
+
+    [HttpPost]
+    [Route("CreateInvalidSubscription")]
+    public async Task<ActionResult> CreateInvalidSubscription()
+    {
+        _logger.LogInformation("Creating invalid subscription");
+        await _facadeService.CreateInvalidSubscriptionAsync();
         return Ok();
     }
 }

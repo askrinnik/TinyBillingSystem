@@ -1,8 +1,7 @@
-﻿namespace Tibis.Domain.ProductManagement
+﻿namespace Tibis.Domain.ProductManagement;
+
+public enum ProductType
 {
-    public enum ProductType
-    {
-        RecurringCharge,
-        Usage
-    }
+    RecurringCharge,
+    Usage
 }

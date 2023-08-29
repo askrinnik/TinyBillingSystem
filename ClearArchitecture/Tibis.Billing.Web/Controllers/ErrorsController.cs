@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Tibis.Domain;
 
-namespace Tibis.AccountManagement.Web.Controllers;
+namespace Tibis.Billing.Web.Controllers;
 
 [ApiExplorerSettings(IgnoreApi = true)]
 public sealed class ErrorsController : ControllerBase
