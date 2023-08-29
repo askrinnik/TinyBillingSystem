@@ -1,5 +1,4 @@
 using Tibis.Application;
-using Tibis.Application.Billing.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

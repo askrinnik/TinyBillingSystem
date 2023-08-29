@@ -1,4 +1,8 @@
 
+using Tibis.Application.AccountManagement.Services;
+using Tibis.Application.Billing.Services;
+using Tibis.Application.ProductManagement.Services;
+
 namespace Tibis.Facade.Web;
 
 public class Program
@@ -14,7 +18,10 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        builder.Services.AddHttpClient<IFacadeService, FacadeService>();
+        builder.Services.AddHttpClient<IProductClient, ProductHttpClient>();
+        builder.Services.AddHttpClient<IAccountClient, AccountHttpClient>();
+        builder.Services.AddHttpClient<IBillingClient, BillingHttpClient>();
+        builder.Services.AddSingleton<IFacadeService, FacadeService>();
 
         var app = builder.Build();
 

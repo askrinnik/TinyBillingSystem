@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Tibis.Application.AccountManagement;
+using Tibis.Application.AccountManagement.Services;
 using Tibis.Application.Billing;
 using Tibis.Application.Billing.Services;
 using Tibis.Application.ProductManagement;
+using Tibis.Application.ProductManagement.Services;
 using Tibis.Domain.AccountManagement;
 using Tibis.Domain.Billing;
 using Tibis.Domain.Interfaces;
@@ -29,8 +31,14 @@ public static class ConfigureContainerExtensions
         services.AddSingleton<IRetrieveMany<Subscription>>(x => x.GetRequiredService<SubscriptionRepository>());
         services.AddSingleton<IRetrieve<Guid, Subscription>>(x => x.GetRequiredService<SubscriptionRepository>());
 
+        services.AddSingleton<AccountUsageRepository>();
+        services.AddSingleton<ICreate<AccountUsage>>(x => x.GetRequiredService<AccountUsageRepository>());
+        services.AddSingleton<IRetrieveMany<AccountUsage>>(x => x.GetRequiredService<AccountUsageRepository>());
+        services.AddSingleton<IRetrieve<Guid, AccountUsage>>(x => x.GetRequiredService<AccountUsageRepository>());
+
         services.AddHttpClient<IProductClient, ProductHttpClient>();
         services.AddHttpClient<IAccountClient, AccountHttpClient>();
+        services.AddHttpClient<IBillingClient, BillingHttpClient>();
 
         services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssemblyContaining<AssemblyMarker>());
