@@ -34,6 +34,15 @@ public class AccountController : ControllerBase
         return Ok(await _sender.Send(new GetAccountByIdRequest(id)));
     }
 
+
+    [HttpGet]
+    [Route("name/{name}")]
+    public async Task<ActionResult<AccountDto>> GetByName(string name)
+    {
+        _logger.LogInformation("Getting account with name '{Name}'", name);
+        return Ok(await _sender.Send(new GetAccountByNameRequest(name)));
+    }
+
     [HttpPost]
     public async Task<ActionResult<AccountDto>> Create(CreateAccountRequest request)
     {

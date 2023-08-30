@@ -34,6 +34,14 @@ public class SubscriptionController : ControllerBase
         return Ok(await _sender.Send(new GetSubscriptionByIdRequest(id)));
     }
 
+    [HttpGet]
+    [Route("product/{productId:guid}/account/{accountId:guid}")]
+    public async Task<ActionResult<SubscriptionDto>> Get(Guid productId, Guid accountId)
+    {
+        _logger.LogInformation("Getting Subscription with product id '{ProductId}' and account id {AccountId}", productId, accountId);
+        return Ok(await _sender.Send(new GetSubscriptionByProductIdAccountIdRequest(productId, accountId)));
+    }
+
     [HttpPost]
     public async Task<ActionResult<SubscriptionDto>> Create(CreateSubscriptionRequest request)
     {

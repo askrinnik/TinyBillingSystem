@@ -34,6 +34,14 @@ public class ProductController : ControllerBase
         return Ok(await _sender.Send(new GetProductByIdRequest(id)));
     }
 
+    [HttpGet]
+    [Route("name/{name}")]
+    public async Task<ActionResult<ProductDto>> GetByName(string name)
+    {
+        _logger.LogInformation("Getting product with name '{Name}'", name);
+        return Ok(await _sender.Send(new GetProductByNameRequest(name)));
+    }
+
     [HttpPost]
     public async Task<ActionResult<ProductDto>> Create(CreateProductRequest request)
     {

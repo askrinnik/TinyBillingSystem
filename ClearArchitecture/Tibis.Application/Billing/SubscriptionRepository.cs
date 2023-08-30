@@ -8,7 +8,8 @@ namespace Tibis.Application.Billing;
 public class SubscriptionRepository:
     IRetrieveMany<Subscription>,
     ICreate<Subscription>,
-    IRetrieve<Guid, Subscription>
+    IRetrieve<Guid, Subscription>,
+    IRetrieve<Guid, Guid, Subscription>
 {
     private readonly ConcurrentDictionary<Guid, Subscription> _items = new();
 
@@ -30,4 +31,9 @@ public class SubscriptionRepository:
 
     public Task<Subscription?> TryRetrieveAsync(Guid key) => 
         Task.FromResult(_items.TryGetValue(key, out var item) ? item : null);
+
+    public Task<Subscription?> TryRetrieveAsync(Guid key1, Guid key2)
+    {
+        return Task.FromResult(_items.Values.SingleOrDefault(x => x.ProductId == key1 && x.AccountId == key2));
+    }
 }

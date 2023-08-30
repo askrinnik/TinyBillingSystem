@@ -22,6 +22,12 @@ public class ProductHttpClient : IProductClient
         return new(product.Id, product.Name, (ProductType)product.ProductType, product.Rate);
     }
 
+    public async Task<Product> GetProductAsync(string name)
+    {
+        var product = await _httpClient.NameAsync(name);
+        return new(product.Id, product.Name, (ProductType)product.ProductType, product.Rate);
+    }
+
     public async Task<Product> CreateProductAsync(Product product)
     {
         var createdProduct = await _httpClient.ProductPOSTAsync(

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Tibis.Application.Billing.Services;
 using Tibis.Application.HttpClients;
 using Tibis.Domain;
 using Tibis.Domain.AccountManagement;
@@ -20,6 +19,12 @@ public class AccountHttpClient : IAccountClient
     public async Task<Account> GetAccountAsync(Guid id)
     {
         var account = await _httpClient.AccountGETAsync(id);
+        return new(account.Id, account.Name);
+    }
+
+    public async Task<Account> GetAccountAsync(string name)
+    {
+        var account = await _httpClient.NameAsync(name);
         return new(account.Id, account.Name);
     }
 

@@ -8,7 +8,8 @@ namespace Tibis.Application.ProductManagement;
 public class ProductRepository:
     IRetrieveMany<Product>,
     ICreate<Product>,
-    IRetrieve<Guid, Product>
+    IRetrieve<Guid, Product>,
+    IRetrieve<string, Product>
 {
     private readonly ConcurrentDictionary<Guid, Product> _items = new();
 
@@ -30,4 +31,7 @@ public class ProductRepository:
 
     public Task<Product?> TryRetrieveAsync(Guid key) => 
         Task.FromResult(_items.TryGetValue(key, out var item) ? item : null);
+
+    public Task<Product?> TryRetrieveAsync(string key) => 
+        Task.FromResult(_items.Values.SingleOrDefault(x => x.Name.Equals(key, StringComparison.InvariantCultureIgnoreCase)));
 }

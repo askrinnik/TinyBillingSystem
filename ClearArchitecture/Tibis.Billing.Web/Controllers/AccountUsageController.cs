@@ -25,4 +25,12 @@ public class AccountUsageController : ControllerBase
         _logger.LogInformation("Getting all account usages");
         return Ok(await _sender.Send(new GetAllAccountUsagesRequest()));
     }
+
+    [HttpPost]
+    [Route("meter")]
+    public async Task<ActionResult<AccountUsageDto>> MeterUsage(MeterUsageRequest request)
+    {
+        _logger.LogInformation("Metering usage for account {AccountName} and product {ProductName}", request.AccountName, request.ProductName);
+        return Ok(await _sender.Send(request));
+    }
 }

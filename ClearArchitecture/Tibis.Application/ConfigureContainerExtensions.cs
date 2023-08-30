@@ -20,16 +20,19 @@ public static class ConfigureContainerExtensions
         services.AddSingleton<ICreate<Account>>(x => x.GetRequiredService<AccountRepository>());
         services.AddSingleton<IRetrieveMany<Account>>(x => x.GetRequiredService<AccountRepository>());
         services.AddSingleton<IRetrieve<Guid, Account>>(x => x.GetRequiredService<AccountRepository>());
+        services.AddSingleton<IRetrieve<string, Account>>(x => x.GetRequiredService<AccountRepository>());
 
         services.AddSingleton<ProductRepository>();
         services.AddSingleton<ICreate<Product>>(x => x.GetRequiredService<ProductRepository>());
         services.AddSingleton<IRetrieveMany<Product>>(x => x.GetRequiredService<ProductRepository>());
         services.AddSingleton<IRetrieve<Guid, Product>>(x => x.GetRequiredService<ProductRepository>());
+        services.AddSingleton<IRetrieve<string, Product>>(x => x.GetRequiredService<ProductRepository>());
 
         services.AddSingleton<SubscriptionRepository>();
         services.AddSingleton<ICreate<Subscription>>(x => x.GetRequiredService<SubscriptionRepository>());
         services.AddSingleton<IRetrieveMany<Subscription>>(x => x.GetRequiredService<SubscriptionRepository>());
         services.AddSingleton<IRetrieve<Guid, Subscription>>(x => x.GetRequiredService<SubscriptionRepository>());
+        services.AddSingleton<IRetrieve<Guid, Guid, Subscription>>(x => x.GetRequiredService<SubscriptionRepository>());
 
         services.AddSingleton<AccountUsageRepository>();
         services.AddSingleton<ICreate<AccountUsage>>(x => x.GetRequiredService<AccountUsageRepository>());

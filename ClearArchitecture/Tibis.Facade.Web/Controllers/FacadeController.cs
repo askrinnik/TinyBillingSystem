@@ -18,11 +18,20 @@ public class FacadeController : ControllerBase
     }
 
     [HttpPost]
-    [Route("CreateDemoData")]
-    public async Task<ActionResult<DemoDataDto>> CreateDemoData()
+    [Route("CreateRcSubscription")]
+    public async Task<ActionResult<DemoDataDto>> CreateRcSubscription()
     {
-        _logger.LogInformation("Creating demo data");
-        var result = await _facadeService.CreateDemoDataAsync();
+        _logger.LogInformation("Creating an RC subscription");
+        var result = await _facadeService.CreateRcSubscriptionAsync();
+        return Ok(result);
+    }
+
+    [HttpPost]
+    [Route("CreateUsageSubscription")]
+    public async Task<ActionResult<DemoDataDto>> CreateUsageSubscription()
+    {
+        _logger.LogInformation("Creating a usage subscription and meter");
+        var result = await _facadeService.CreateUsageSubscriptionAsync();
         return Ok(result);
     }
 

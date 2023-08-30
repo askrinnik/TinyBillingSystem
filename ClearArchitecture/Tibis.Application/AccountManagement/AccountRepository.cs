@@ -8,7 +8,8 @@ namespace Tibis.Application.AccountManagement;
 public class AccountRepository:
     IRetrieveMany<Account>,
     ICreate<Account>,
-    IRetrieve<Guid, Account>
+    IRetrieve<Guid, Account>,
+    IRetrieve<string, Account>
 {
     private readonly ConcurrentDictionary<Guid, Account> _items = new();
 
@@ -30,4 +31,7 @@ public class AccountRepository:
 
     public Task<Account?> TryRetrieveAsync(Guid key) => 
         Task.FromResult(_items.TryGetValue(key, out var item) ? item : null);
+
+    public Task<Account?> TryRetrieveAsync(string key) =>
+        Task.FromResult(_items.Values.SingleOrDefault(x => x.Name.Equals(key, StringComparison.InvariantCultureIgnoreCase)));
 }
