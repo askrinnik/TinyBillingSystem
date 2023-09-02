@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Tibis.Application.ProductManagement.Models;
-using Tibis.Application.ProductManagement.Queries;
+using Tibis.ProductManagement.CQRS.Models;
+using Tibis.ProductManagement.CQRS.Requests;
 
 namespace Tibis.ProductManagement.Web.Controllers;
 

@@ -1,4 +1,7 @@
-using Tibis.Application;
+using Tibis.AccountManagement.HttpClients;
+using Tibis.Billing.Application;
+using Tibis.Billing.DB;
+using Tibis.ProductManagement.HttpClients;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,9 +13,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddApplicationDependencies();
+builder.Services.AddRepositories();
+builder.Services.AddHandlers();
+builder.Services.AddAccountManagementHandlers();
+builder.Services.AddProductManagementHandlers();
 
 var app = builder.Build();
+
+// Use ErrorsController to handle errors
+app.UseExceptionHandler(new ExceptionHandlerOptions { ExceptionHandlingPath = "/error", AllowStatusCode404Response = true });
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

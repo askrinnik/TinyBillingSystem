@@ -19,28 +19,28 @@ public class FacadeController : ControllerBase
 
     [HttpPost]
     [Route("CreateRcSubscription")]
-    public async Task<ActionResult<DemoDataDto>> CreateRcSubscription()
+    public async Task<ActionResult<DemoDataDto>> CreateRcSubscription(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Creating an RC subscription");
-        var result = await _facadeService.CreateRcSubscriptionAsync();
+        var result = await _facadeService.CreateRcSubscriptionAsync(cancellationToken);
         return Ok(result);
     }
 
     [HttpPost]
     [Route("CreateUsageSubscription")]
-    public async Task<ActionResult<DemoDataDto>> CreateUsageSubscription()
+    public async Task<ActionResult<DemoDataDto>> CreateUsageSubscription(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Creating a usage subscription and meter");
-        var result = await _facadeService.CreateUsageSubscriptionAsync();
+        var result = await _facadeService.CreateUsageSubscriptionAsync(cancellationToken);
         return Ok(result);
     }
 
     [HttpPost]
     [Route("CreateInvalidSubscription")]
-    public async Task<ActionResult> CreateInvalidSubscription()
+    public async Task<ActionResult> CreateInvalidSubscription(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Creating invalid subscription");
-        await _facadeService.CreateInvalidSubscriptionAsync();
+        await _facadeService.CreateInvalidSubscriptionAsync(cancellationToken);
         return Ok();
     }
 }

@@ -1,5 +1,5 @@
-﻿using Tibis.Application.AccountManagement.Models;
-using Tibis.Application.ProductManagement.Models;
+﻿using Tibis.AccountManagement.CQRS.Models;
+using Tibis.ProductManagement.CQRS.Models;
 
 namespace Tibis.Facade.Web.Models
 {

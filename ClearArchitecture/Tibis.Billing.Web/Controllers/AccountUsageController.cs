@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Tibis.Application.Billing.Models;
-using Tibis.Application.Billing.Queries;
+using Tibis.Billing.CQRS.Models;
+using Tibis.Billing.CQRS.Requests;
 
 namespace Tibis.Billing.Web.Controllers;
 

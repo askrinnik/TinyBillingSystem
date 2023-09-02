@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Tibis.Application.AccountManagement.Models;
-using Tibis.Application.AccountManagement.Queries;
+using Tibis.AccountManagement.CQRS.Models;
+using Tibis.AccountManagement.CQRS.Requests;
 
 namespace Tibis.AccountManagement.Web.Controllers;
 

@@ -1,57 +1,57 @@
-﻿using Tibis.Application.AccountManagement.Models;
-using Tibis.Application.AccountManagement.Services;
-using Tibis.Application.Billing.Services;
-using Tibis.Application.ProductManagement.Models;
-using Tibis.Application.ProductManagement.Services;
-using Tibis.Domain.ProductManagement;
+﻿using MediatR;
+using Tibis.AccountManagement.CQRS.Requests;
+using Tibis.Billing.CQRS.Requests;
 using Tibis.Facade.Web.Models;
+using Tibis.ProductManagement.CQRS.Models;
+using Tibis.ProductManagement.CQRS.Requests;
 
 namespace Tibis.Facade.Web;
 
 public interface IFacadeService
 {
-    Task<DemoDataDto> CreateRcSubscriptionAsync();
-    Task<DemoDataDto> CreateUsageSubscriptionAsync();
-    Task CreateInvalidSubscriptionAsync();
+    Task<DemoDataDto> CreateRcSubscriptionAsync(CancellationToken cancellationToken);
+    Task<DemoDataDto> CreateUsageSubscriptionAsync(CancellationToken cancellationToken);
+    Task CreateInvalidSubscriptionAsync(CancellationToken cancellationToken);
 }
 
 public class FacadeService : IFacadeService
 {
-    private readonly IAccountClient _accountClient;
-    private readonly IProductClient _productClient;
-    private readonly IBillingClient _billingClient;
+    private readonly ILogger<FacadeService> _logger;
+    private readonly ISender _sender;
 
-    public FacadeService(IAccountClient accountClient, IProductClient productClient, IBillingClient billingClient)
+    public FacadeService(ISender sender, ILogger<FacadeService> logger)
     {
-        _accountClient = accountClient;
-        _productClient = productClient;
-        _billingClient = billingClient;
+        _sender = sender;
+        _logger = logger;
     }
 
-    public async Task<DemoDataDto> CreateRcSubscriptionAsync()
+    public async Task<DemoDataDto> CreateRcSubscriptionAsync(CancellationToken cancellationToken)
     {   
-        var rcProduct = await _productClient.CreateProductAsync(new($"ProductRC_{Guid.NewGuid()}", ProductType.RecurringCharge, 2));
-        var account = await _accountClient.CreateAsync(new($"User_{Guid.NewGuid()}"));
-        var subscription = await _billingClient.CreateSubscriptionAsync(new(rcProduct.Id, account.Id));
+        _logger.LogInformation("Creating an RC subscription");
+        var rcProduct = await _sender.Send(new CreateProductRequest($"ProductRC_{Guid.NewGuid()}", ProductType.RecurringCharge, 2), cancellationToken);
+        var account = await _sender.Send(new CreateAccountRequest($"User_{Guid.NewGuid()}"), cancellationToken);
+        var subscription = await _sender.Send(new CreateSubscriptionRequest(rcProduct.Id, account.Id), cancellationToken);
 
-        return new(ProductDto.From(rcProduct), AccountDto.From(account), subscription.Id);
+        return new(rcProduct, account, subscription.Id);
     }
 
-    public async Task<DemoDataDto> CreateUsageSubscriptionAsync()
+    public async Task<DemoDataDto> CreateUsageSubscriptionAsync(CancellationToken cancellationToken)
     {
-        var usageProduct = await _productClient.CreateProductAsync(new($"ProductUsage_{Guid.NewGuid()}", ProductType.Usage, 2));
-        var account = await _accountClient.CreateAsync(new($"User_{Guid.NewGuid()}"));
-        var subscription = await _billingClient.CreateSubscriptionAsync(new(usageProduct.Id, account.Id));
+        _logger.LogInformation("Creating a usage subscription and meter");
+        var usageProduct = await _sender.Send(new CreateProductRequest($"ProductUsage_{Guid.NewGuid()}", ProductType.Usage, 2), cancellationToken);
+        var account = await _sender.Send(new CreateAccountRequest($"User_{Guid.NewGuid()}"), cancellationToken);
+        var subscription = await _sender.Send(new CreateSubscriptionRequest(usageProduct.Id, account.Id), cancellationToken);
 
-        await _billingClient.MeterUsageAsync(new(usageProduct.Name, account.Name, DateTime.Now, 2));
-        await _billingClient.MeterUsageAsync(new(usageProduct.Name, account.Name, DateTime.Now, 3));
-        await _billingClient.MeterUsageAsync(new(usageProduct.Name, account.Name, DateTime.Now, 4));
+        await _sender.Send(new MeterUsageRequest(usageProduct.Name, account.Name, DateTime.Now, 2), cancellationToken);
+        await _sender.Send(new MeterUsageRequest(usageProduct.Name, account.Name, DateTime.Now, 3), cancellationToken);
+        await _sender.Send(new MeterUsageRequest(usageProduct.Name, account.Name, DateTime.Now, 4), cancellationToken);
         
-        return new(ProductDto.From(usageProduct), AccountDto.From(account), subscription.Id);
+        return new(usageProduct, account, subscription.Id);
     }
 
-    public async Task CreateInvalidSubscriptionAsync()
+    public async Task CreateInvalidSubscriptionAsync(CancellationToken cancellationToken)
     {
-        _ = await _billingClient.CreateSubscriptionAsync(new(Guid.NewGuid(), Guid.NewGuid()));
+        _logger.LogInformation("Creating invalid subscription");
+        _ = await _sender.Send(new CreateSubscriptionRequest(Guid.NewGuid(), Guid.NewGuid()), cancellationToken);
     }
 }

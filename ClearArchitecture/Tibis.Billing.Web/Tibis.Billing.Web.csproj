@@ -12,7 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tibis.Application\Tibis.Application.csproj" />
+    <ProjectReference Include="..\Tibis.AccountManagement.HttpClients\Tibis.AccountManagement.HttpClients.csproj" />
+    <ProjectReference Include="..\Tibis.Billing.Application\Tibis.Billing.Application.csproj" />
+    <ProjectReference Include="..\Tibis.Billing.CQRS\Tibis.Billing.CQRS.csproj" />
+    <ProjectReference Include="..\Tibis.Billing.DB\Tibis.Billing.DB.csproj" />
+    <ProjectReference Include="..\Tibis.Contracts\Tibis.Contracts.csproj" />
+    <ProjectReference Include="..\Tibis.ProductManagement.HttpClients\Tibis.ProductManagement.HttpClients.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,8 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tibis.Application\Tibis.Application.csproj" />
-    <ProjectReference Include="..\Tibis.Domain\Tibis.Domain.csproj" />
+    <ProjectReference Include="..\Tibis.AccountManagement.Application\Tibis.AccountManagement.Application.csproj" />
+    <ProjectReference Include="..\Tibis.AccountManagement.CQRS\Tibis.AccountManagement.CQRS.csproj" />
+    <ProjectReference Include="..\Tibis.AccountManagement.DB\Tibis.AccountManagement.DB.csproj" />
+    <ProjectReference Include="..\Tibis.Contracts\Tibis.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

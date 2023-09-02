@@ -1,4 +1,5 @@
-using Tibis.Application;
+using Tibis.ProductManagement.Application;
+using Tibis.ProductManagement.DB;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddApplicationDependencies();
+builder.Services.AddRepositories();
+builder.Services.AddHandlers();
 
 var app = builder.Build();
 
