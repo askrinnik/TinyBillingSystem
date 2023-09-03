@@ -1,3 +1,5 @@
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Tibis.AccountManagement.Application;
 using Tibis.AccountManagement.DB;
 
@@ -13,6 +15,20 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddRepositories();
 builder.Services.AddHandlers();
+
+const string serviceName = "Tibis.AccountManagement";
+
+var openTelemetryBuilder = builder.Services.AddOpenTelemetry() // add the OpenTelemetry.Extensions.Hosting nuget package
+    .ConfigureResource(resource => resource.AddService(serviceName));
+
+openTelemetryBuilder
+    .WithTracing(tracerProviderBuilder =>
+            tracerProviderBuilder
+                .AddSource(serviceName)
+                .AddAspNetCoreInstrumentation(options => options.RecordException = true) // add the pre-release OpenTelemetry.Instrumentation.AspNetCore nuget package
+                .AddHttpClientInstrumentation() // add the pre-release OpenTelemetry.Instrumentation.Http nuget package
+                .AddOtlpExporter() // 4317 // add the OpenTelemetry.Exporter.OpenTelemetryProtocol nuget package
+    );
 
 var app = builder.Build();
 

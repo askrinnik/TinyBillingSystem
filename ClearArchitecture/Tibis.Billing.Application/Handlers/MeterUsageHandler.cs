@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 using Tibis.AccountManagement.CQRS.Requests;
 using Tibis.Billing.CQRS.Models;
 using Tibis.Billing.CQRS.Requests;
@@ -37,8 +38,11 @@ internal class MeterUsageHandler: IRequestHandler<MeterUsageRequest, AccountUsag
         var session = new Session();
         await InitializeSession(request, session);
 
-        foreach (var plugin in pipeline) 
-            await plugin(session, cancellationToken);
+        using (var slow = Activity.Current?.Source.StartActivity("ProcessUsage"))
+        {
+            foreach (var plugin in pipeline)
+                await plugin(session, cancellationToken);
+        }
 
         return session.AccountUsage!.ToDto();
     }
@@ -101,6 +105,10 @@ internal class MeterUsageHandler: IRequestHandler<MeterUsageRequest, AccountUsag
         _logger.LogInformation("Calculating amount for rate {Rate}, count {UsageCount}", session.Rate, session.UsageCount);
         session.Amount = session.Rate * session.UsageCount;
         _logger.LogInformation("Calculated amount {Amount}", session.Amount);
+
+        var myTags = new Dictionary<string, object?> { { "CalculatedAmount", session.Amount } };
+        Activity.Current?.AddEvent(new ActivityEvent("Amount was generated", tags: new ActivityTagsCollection(myTags)));
+
         return Task.CompletedTask;
     }
 

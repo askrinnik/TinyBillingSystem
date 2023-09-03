@@ -1,3 +1,5 @@
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Tibis.AccountManagement.HttpClients;
 using Tibis.Billing.HttpClients;
 using Tibis.ProductManagement.HttpClients;
@@ -22,6 +24,20 @@ public class Program
         builder.Services.AddBillingHandlers();
 
         builder.Services.AddSingleton<IFacadeService, FacadeService>();
+
+        const string serviceName = "Tibis.Facade";
+
+        var openTelemetryBuilder = builder.Services.AddOpenTelemetry() // add the OpenTelemetry.Extensions.Hosting nuget package
+            .ConfigureResource(resource => resource.AddService(serviceName));
+
+        openTelemetryBuilder
+            .WithTracing(tracerProviderBuilder =>
+                    tracerProviderBuilder
+                        .AddSource(serviceName)
+                        .AddAspNetCoreInstrumentation(options => options.RecordException = true) // add the pre-release OpenTelemetry.Instrumentation.AspNetCore nuget package
+                        .AddHttpClientInstrumentation() // add the pre-release OpenTelemetry.Instrumentation.Http nuget package
+                        .AddOtlpExporter() // 4317 // add the OpenTelemetry.Exporter.OpenTelemetryProtocol nuget package
+            );
 
         var app = builder.Build();
 

@@ -1,3 +1,5 @@
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Tibis.AccountManagement.HttpClients;
 using Tibis.Billing.Application;
 using Tibis.Billing.DB;
@@ -17,6 +19,20 @@ builder.Services.AddRepositories();
 builder.Services.AddHandlers();
 builder.Services.AddAccountManagementHandlers();
 builder.Services.AddProductManagementHandlers();
+
+const string serviceName = "Tibis.Billing";
+
+var openTelemetryBuilder = builder.Services.AddOpenTelemetry() // add the OpenTelemetry.Extensions.Hosting nuget package
+    .ConfigureResource(resource => resource.AddService(serviceName));
+
+openTelemetryBuilder
+    .WithTracing(tracerProviderBuilder =>
+            tracerProviderBuilder
+                .AddSource(serviceName)
+                .AddAspNetCoreInstrumentation(options => options.RecordException = true) // add the pre-release OpenTelemetry.Instrumentation.AspNetCore nuget package
+                .AddHttpClientInstrumentation() // add the pre-release OpenTelemetry.Instrumentation.Http nuget package
+                .AddOtlpExporter() // 4317 // add the OpenTelemetry.Exporter.OpenTelemetryProtocol nuget package
+    );
 
 var app = builder.Build();
 
