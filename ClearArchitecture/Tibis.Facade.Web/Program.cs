@@ -1,3 +1,4 @@
+using LokiLoggingProvider.Options;
 using Tibis.AccountManagement.HttpClients;
 using Tibis.Billing.HttpClients;
 using Tibis.ProductManagement.HttpClients;
@@ -22,6 +23,14 @@ public class Program
         builder.Services.AddBillingHandlers();
 
         builder.Services.AddSingleton<IFacadeService, FacadeService>();
+
+        builder.Logging.AddLoki(configure =>
+        {
+            configure.Client = PushClient.Grpc;
+            configure.StaticLabels.JobName = "Tibis.Facade";
+            configure.StaticLabels.AdditionalStaticLabels.Add("SystemName", "Tibis");
+            configure.Formatter = Formatter.Json;
+        });
 
         var app = builder.Build();
 

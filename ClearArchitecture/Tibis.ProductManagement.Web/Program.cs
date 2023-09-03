@@ -1,3 +1,4 @@
+using LokiLoggingProvider.Options;
 using Tibis.ProductManagement.Application;
 using Tibis.ProductManagement.DB;
 
@@ -13,6 +14,14 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddRepositories();
 builder.Services.AddHandlers();
+
+builder.Logging.AddLoki(configure =>
+{
+    configure.Client = PushClient.Grpc;
+    configure.StaticLabels.JobName = "Tibis.ProductManagement";
+    configure.StaticLabels.AdditionalStaticLabels.Add("SystemName", "Tibis");
+    configure.Formatter = Formatter.Json;
+});
 
 var app = builder.Build();
 

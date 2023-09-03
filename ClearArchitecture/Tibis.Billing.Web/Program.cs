@@ -1,3 +1,4 @@
+using LokiLoggingProvider.Options;
 using Tibis.AccountManagement.HttpClients;
 using Tibis.Billing.Application;
 using Tibis.Billing.DB;
@@ -17,6 +18,14 @@ builder.Services.AddRepositories();
 builder.Services.AddHandlers();
 builder.Services.AddAccountManagementHandlers();
 builder.Services.AddProductManagementHandlers();
+
+builder.Logging.AddLoki(configure =>
+{
+    configure.Client = PushClient.Grpc;
+    configure.StaticLabels.JobName = "Tibis.Billing";
+    configure.StaticLabels.AdditionalStaticLabels.Add("SystemName", "Tibis");
+    configure.Formatter = Formatter.Json;
+});
 
 var app = builder.Build();
 
